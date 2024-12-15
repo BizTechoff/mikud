@@ -17,6 +17,8 @@ import { remult } from 'remult'
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  version = '2024.12.15'
+
   constructor(
     public router: Router,
     public activeRoute: ActivatedRoute,
@@ -83,6 +85,11 @@ export class AppComponent implements OnInit {
     if (route.data && route.data['name']) name = route.data['name']
     return name
     return ''
+  }
+
+  openBizTechoff() {
+    window?.open(`https://biztechoff.co.il/`, '_blank')
+    // window?.open(`https://biztechoff.co.il/v/${this.version}`, '_blank')
   }
 
   currentTitle() {

@@ -22,6 +22,18 @@
   flex-direction: column;
 }
 
+
+.biztechoff {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  color: blue;
+  padding: 0px, 5px;
+}
+
+.biztechoff span {
+  cursor: pointer;
+}
 .app-sidenav {
   width: 240px;
   box-shadow: var(--mat-app-elevation-shadow-level-10, none);
