@@ -6,6 +6,9 @@ import { Entity, Fields, IdEntity } from "remult";
 export class Task extends IdEntity {
 
     @Fields.string()
+    whom!: string;
+
+    @Fields.string()
     title!: string;
 
     @Fields.string()
@@ -14,7 +17,7 @@ export class Task extends IdEntity {
     @Fields.string()
     assignee!: string;
 
-    @Fields.date()
+    @Fields.dateOnly()
     dueDate!: Date;
 
     @Fields.boolean({ defaultValue: () => false })

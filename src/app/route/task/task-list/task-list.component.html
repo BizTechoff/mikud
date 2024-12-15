@@ -1,18 +1,42 @@
 <div>
     <h2>ניהול משימות</h2>
-    <form (ngSubmit)="addTask()">
-        <input [(ngModel)]="newTask.title" placeholder="שם משימה" name="title" required />
-        <input [(ngModel)]="newTask.description" placeholder="תיאור" name="description" />
+    <form>
+        <!-- <input [(ngModel)]="newTask.title" placeholder="שם משימה" name="title" required /> -->
+         {{newTask.whom}}
+        <select [(ngModel)]="newTask.whom" name="services" required>
+            <option [ngValue]="'מוטי'">{{ 'מוטי' }}</option>
+            <option [ngValue]="'ערן'">{{ 'ערן' }}</option>
+          </select>
+        <!-- <select
+        > -->
+            <!-- <option value="'מוטי'"></option>
+            <option value="'ערן'"></option> -->
+        <!-- </select> -->
+        <textarea [(ngModel)]="newTask.description" placeholder="תיאור" name="description" rows="3" style="font-family: david; font-size: larger;"></textarea>
         <input [(ngModel)]="newTask.assignee" placeholder="אחראי" name="assignee" />
         <input type="date" [(ngModel)]="newTask.dueDate" name="dueDate" />
-        <button type="submit">הוסף משימה</button>
+        <button *ngIf="!editmode" (click)="addTask()">הוסף משימה</button>
+        <button *ngIf="editmode" (click)="updateTask()">עדכן משימה</button>
     </form>
     <ul>
         <li *ngFor="let task of tasks">
-            <label>
-                <input type="checkbox" [(ngModel)]="task.isCompleted" (change)="toggleCompletion(task)" />
-                {{ task.title }} - {{ task.assignee }}
-            </label>
+            <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+                <div style="display: flex; flex-direction: column;">
+                    <div>
+                        <label>
+                            <input type="checkbox" [(ngModel)]="task.isCompleted" (change)="toggleCompletion(task)" />
+                            {{ task.description }}
+                        </label>
+                    </div>
+                    <div>
+                        <span style="font-size: small;">{{ task.assignee }} - {{ task.dueDate | date:'dd/MM/yyyy' }}</span>
+                    </div>
+                </div>
+                <div>
+                    <mat-icon (click)="this.editTask(task)" title="ערוך משימה">edit</mat-icon>
+                    <mat-icon (click)="this.removeTask(task)" title="מחק משימה">delete</mat-icon>
+                </div>
+            </div>
         </li>
     </ul>
 </div>

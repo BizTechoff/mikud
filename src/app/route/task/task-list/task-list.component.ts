@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Remult } from 'remult';
+import { Remult, repo } from 'remult';
+import { openDialog } from '../../../common-ui-elements';
+import { YesNoQuestionComponent } from '../../../common/yes-no-question/yes-no-question.component';
 import { Task } from '../../../entity/task';
 
 @Component({
@@ -10,6 +12,7 @@ import { Task } from '../../../entity/task';
 export class TaskListComponent implements OnInit, OnDestroy {
     tasks: Task[] = [];
     newTask: Partial<Task> = {};
+    editmode = false
 
     constructor(private remult: Remult) {
     }
@@ -32,10 +35,37 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
 
     async addTask() {
-        if (this.newTask.title) {
+        if (this.newTask.description) {
             const taskRepo = this.remult.repo(Task);
             await taskRepo.insert(this.newTask);
             this.newTask = {};
+            // this.loadTasks();
+        }
+    }
+
+    async updateTask() {
+        if(this.newTask)
+        {const taskRepo = this.remult.repo(Task);
+        await taskRepo.save(this.newTask);
+        }
+    }
+
+    async editTask(t: Task) {
+        this.newTask = t
+    }
+
+    async removeTask(t: Task) {
+        if (t) {
+            const yes = await openDialog(
+                YesNoQuestionComponent,
+                (d) => (d.args = { message: 'להסיר את ' + t.description, isAQuestion: true, }),
+                (d) => (d?.okPressed)
+            )
+            if (yes) {
+                const taskRepo = this.remult.repo(Task);
+                await taskRepo.delete(t);
+            }
+            // this.newTask = {};
             // this.loadTasks();
         }
     }

@@ -12,14 +12,14 @@ import { UsersComponent } from './users/users.component'
 
 const defaultRoute = 'tasks'
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'tasks', component: TaskListComponent },
-  {
-    path: terms.userAccounts,
-    component: UsersComponent,
-    canActivate: [AdminGuard],
-  },
-  { path: 'demo', component: DemoDataControlAndDataAreaComponent },
+  // { path: 'home', component: HomeComponent },
+  { path: 'tasks', component: TaskListComponent, data: {name: 'משימות מערב ממוקד חבר '} },
+  // {
+  //   path: terms.userAccounts,
+  //   component: UsersComponent,
+  //   canActivate: [AdminGuard],
+  // },
+  // { path: 'demo', component: DemoDataControlAndDataAreaComponent },
   { path: '**', redirectTo: '/' + defaultRoute, pathMatch: 'full' }
 ]
 

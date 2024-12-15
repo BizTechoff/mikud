@@ -32,7 +32,7 @@
     <mat-sidenav
       #sidenav
       class="app-sidenav mat-elevation-z10 no-print"
-      [opened]="!uiService.isScreenSmall()"
+      [opened]="false && !uiService.isScreenSmall()"
       [mode]="uiService.isScreenSmall() ? 'over' : 'side'"
     >
       <div style="width: 100%; text-align: center"></div>

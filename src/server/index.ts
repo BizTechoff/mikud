@@ -1,11 +1,11 @@
-import express from 'express'
-import sslRedirect from 'heroku-ssl-redirect'
-import helmet from 'helmet'
 import compression from 'compression'
-import { api } from './api'
 import session from 'cookie-session'
-import path from 'path'
+import express from 'express'
 import fs from 'fs'
+import helmet from 'helmet'
+import sslRedirect from 'heroku-ssl-redirect'
+import path from 'path'
+import { api } from './api'
 
 async function startup() {
   const app = express()
