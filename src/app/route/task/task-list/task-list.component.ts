@@ -38,7 +38,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
         if (this.newTask.description) {
             const taskRepo = this.remult.repo(Task);
             await taskRepo.insert(this.newTask);
+            var whom = this.newTask.whom
             this.newTask = {};
+            this.newTask.whom = whom
             // this.loadTasks();
         }
     }
