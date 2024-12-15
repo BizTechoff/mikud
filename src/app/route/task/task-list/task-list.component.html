@@ -1,34 +1,23 @@
 <div>
-    <h2>ניהול משימות</h2>
-    <form>
-        <!-- <input [(ngModel)]="newTask.title" placeholder="שם משימה" name="title" required /> -->
-        <!-- {{newTask.whom}} -->
+    <!-- <h2>ניהול משימות</h2> -->
+    <form style="position: sticky; top: 0; background-color: white; z-index: 1000; padding: 1rem; border: 1px solid #ccc; margin-bottom: 1rem;">
         <label>שם ממוקד</label>
         <select [(ngModel)]="this.whom" name="services" required>
             <option [ngValue]="'מוטי'">{{ 'מוטי' }}</option>
             <option [ngValue]="'ערן'">{{ 'ערן' }}</option>
         </select>
-        <!-- <select
-        > -->
-        <!-- <option value="'מוטי'"></option>
-            <option value="'ערן'"></option> -->
-        <!-- </select> -->
-        <textarea [(ngModel)]="newTask.description" placeholder="תיאור המשימה" name="description" rows="3"
-            style="font-family: david; font-size: larger;"></textarea>
-        <!-- <input [(ngModel)]="newTask.assignee" placeholder="אחראי" name="assignee" /> -->
+        <textarea [(ngModel)]="newTask.description" placeholder="תיאור המשימה" name="description" rows="3" style="font-family: david; font-size: larger;"></textarea>
         <data-control [field]="newTask.$.assignee"></data-control>
-        <!-- <input type="date" [(ngModel)]="newTask.dueDate" name="dueDate" /> -->
         <data-control [field]="newTask.$.dueDate!"></data-control>
         <div style="display: flex; flex-direction: row; gap: 5px;">
-        <button style="width: 100%;" *ngIf="!editmode" (click)="addTask()">הוסף משימה</button>
-        <button style="width: 100%;" *ngIf="editmode" (click)="updateTask()">עדכן משימה</button>
-        <button style="width: auto;" *ngIf="editmode" (click)="editmode = false">חזור</button>
-    </div>
+            <button style="width: 100%;" *ngIf="!editmode" (click)="addTask()">הוסף משימה</button>
+            <button style="width: 100%;" *ngIf="editmode" (click)="updateTask()">עדכן משימה</button>
+            <button style="width: auto;" *ngIf="editmode" (click)="clear()">חזור</button>
+        </div>
     </form>
     <ul>
         <li *ngFor="let task of tasks">
-            <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
-                [style.backgroundColor]="task.whom === 'מוטי'? '#ADD8E6' : '#90EE90'">
+            <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;" [style.backgroundColor]="task.whom === 'מוטי' ? '#ADD8E6' : '#90EE90'">
                 <div style="display: flex; flex-direction: column;">
                     <div>
                         <label>
@@ -37,13 +26,12 @@
                         </label>
                     </div>
                     <div>
-                        <span style="font-size: small;">{{ task.assignee }} - {{ task.dueDate | date:'dd/MM/yyyy'
-                            }}</span>
+                        <span style="font-size: small;">{{ task.assignee }} - {{ task.dueDate | date:'dd/MM/yyyy' }}</span>
                     </div>
                 </div>
                 <div style="justify-content: baseline;">
-                    <mat-icon (click)="this.editTask(task)" title="ערוך משימה">edit</mat-icon>
-                    <mat-icon (click)="this.removeTask(task)" title="מחק משימה">delete</mat-icon>
+                    <mat-icon *ngIf="!task.isCompleted" (click)="editTask(task)" title="ערוך משימה">edit</mat-icon>
+                    <mat-icon *ngIf="!task.isCompleted" (click)="removeTask(task)" title="מחק משימה">delete</mat-icon>
                     {{task.whom}}
                 </div>
             </div>

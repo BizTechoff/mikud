@@ -21,23 +21,28 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
     unsubscribe = () => { }
     ngOnInit() {
-        this.unsubscribe = this.remult.repo(Task).liveQuery()
-            .subscribe(info =>
+        this.unsubscribe = this.remult.repo(Task).liveQuery({ orderBy: { updated: 'desc' } })
+            .subscribe(info => {
                 this.tasks = info.applyChanges(this.tasks)
-            )
+                this.whomChanged() 
+                this.orderTasks();
+                // this.setTasks(info.applyChanges(this.tasks))
+                // this.tasks.sort((a, b) => b.dueDate - +a.dueDate)
+            })
         // this.loadTasks();
     }
 
+    orderTasks() {
+        this.tasks.sort((a,b) => +b.created - +a.created)
+    }
+
     whomChanged() {
+        // this.tasks = this.tasks.filter(t=>t.whom === this.whom)
         // console.log('dsdsds')
     }
 
     ngOnDestroy() {
         if (this.unsubscribe) this.unsubscribe()
-    }
-
-    async loadTasks() {
-        this.tasks = await this.remult.repo(Task).find();
     }
 
     async addTask() {
@@ -46,6 +51,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
             this.newTask.whom = this.whom
             await taskRepo.insert(this.newTask);
             this.newTask = this.taskRepo.create({ whom: this.whom })
+            this.orderTasks()
             // this.loadTasks();
         }
     }
@@ -54,7 +60,13 @@ export class TaskListComponent implements OnInit, OnDestroy {
         if (this.newTask) {
             const taskRepo = this.remult.repo(Task);
             await taskRepo.save(this.newTask);
+            this.orderTasks()
         }
+    }
+
+    clear() {
+        this.editmode = false
+        this.newTask = this.taskRepo.create({ whom: this.whom })
     }
 
     async editTask(t: Task) {

@@ -23,6 +23,9 @@ export class Task extends IdEntity {
     @Fields.boolean({ caption:'הסתיים', defaultValue: () => false })
     isCompleted = false;
 
+    @Fields.updatedAt({caption: 'נוצר'})
+    created!: Date
+
     @Fields.updatedAt({caption: 'עודכן'})
     updated!: Date
 
