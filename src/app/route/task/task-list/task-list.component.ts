@@ -10,7 +10,7 @@ import { Task } from '../../../entity/task';
     styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent implements OnInit, OnDestroy {
-    whom = 'מוטי'
+    whom = 'ערן'
     taskRepo = this.remult.repo(Task);
     tasks: Task[] = [];
     newTask = this.taskRepo.create({ whom: this.whom })
@@ -72,6 +72,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     async editTask(t: Task) {
         this.editmode = true
         this.newTask = t
+        this.whom = this.newTask.whom
     }
 
     async removeTask(t: Task) {
