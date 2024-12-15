@@ -1,0 +1,18 @@
+<div>
+    <h2>ניהול משימות</h2>
+    <form (ngSubmit)="addTask()">
+        <input [(ngModel)]="newTask.title" placeholder="שם משימה" name="title" required />
+        <input [(ngModel)]="newTask.description" placeholder="תיאור" name="description" />
+        <input [(ngModel)]="newTask.assignee" placeholder="אחראי" name="assignee" />
+        <input type="date" [(ngModel)]="newTask.dueDate" name="dueDate" />
+        <button type="submit">הוסף משימה</button>
+    </form>
+    <ul>
+        <li *ngFor="let task of tasks">
+            <label>
+                <input type="checkbox" [(ngModel)]="task.isCompleted" (change)="toggleCompletion(task)" />
+                {{ task.title }} - {{ task.assignee }}
+            </label>
+        </li>
+    </ul>
+</div>
