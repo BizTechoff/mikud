@@ -5,22 +5,25 @@ import { Entity, Fields, IdEntity } from "remult";
 })
 export class Task extends IdEntity {
 
-    @Fields.string()
+    @Fields.string({caption: 'ממוקד'})
     whom!: string;
 
-    @Fields.string()
+    @Fields.string({caption: 'כותרת'})
     title!: string;
 
-    @Fields.string()
+    @Fields.string({caption: 'תיאור'})
     description!: string;
 
-    @Fields.string()
+    @Fields.string({caption: 'שם החבר'})
     assignee!: string;
 
-    @Fields.dateOnly()
-    dueDate!: Date;
+    @Fields.dateOnly({caption: 'תאריך יעד'})
+    dueDate = new Date()
 
-    @Fields.boolean({ defaultValue: () => false })
+    @Fields.boolean({ caption:'הסתיים', defaultValue: () => false })
     isCompleted = false;
+
+    @Fields.updatedAt({caption: 'עודכן'})
+    updated!: Date
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Remult, repo } from 'remult';
+import { Remult } from 'remult';
 import { openDialog } from '../../../common-ui-elements';
 import { YesNoQuestionComponent } from '../../../common/yes-no-question/yes-no-question.component';
 import { Task } from '../../../entity/task';
@@ -10,8 +10,10 @@ import { Task } from '../../../entity/task';
     styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent implements OnInit, OnDestroy {
+    whom = 'מוטי'
+    taskRepo = this.remult.repo(Task);
     tasks: Task[] = [];
-    newTask: Partial<Task> = {};
+    newTask = this.taskRepo.create({ whom: this.whom })
     editmode = false
 
     constructor(private remult: Remult) {
@@ -19,11 +21,15 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
     unsubscribe = () => { }
     ngOnInit() {
-        this.unsubscribe = this.remult.repo(Task).liveQuery({})
+        this.unsubscribe = this.remult.repo(Task).liveQuery()
             .subscribe(info =>
                 this.tasks = info.applyChanges(this.tasks)
             )
         // this.loadTasks();
+    }
+
+    whomChanged() {
+        // console.log('dsdsds')
     }
 
     ngOnDestroy() {
@@ -37,22 +43,22 @@ export class TaskListComponent implements OnInit, OnDestroy {
     async addTask() {
         if (this.newTask.description) {
             const taskRepo = this.remult.repo(Task);
+            this.newTask.whom = this.whom
             await taskRepo.insert(this.newTask);
-            var whom = this.newTask.whom
-            this.newTask = {};
-            this.newTask.whom = whom
+            this.newTask = this.taskRepo.create({ whom: this.whom })
             // this.loadTasks();
         }
     }
 
     async updateTask() {
-        if(this.newTask)
-        {const taskRepo = this.remult.repo(Task);
-        await taskRepo.save(this.newTask);
+        if (this.newTask) {
+            const taskRepo = this.remult.repo(Task);
+            await taskRepo.save(this.newTask);
         }
     }
 
     async editTask(t: Task) {
+        this.editmode = true
         this.newTask = t
     }
 

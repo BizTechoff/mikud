@@ -2,25 +2,33 @@
     <h2>ניהול משימות</h2>
     <form>
         <!-- <input [(ngModel)]="newTask.title" placeholder="שם משימה" name="title" required /> -->
-         {{newTask.whom}}
-        <select [(ngModel)]="newTask.whom" name="services" required>
+        <!-- {{newTask.whom}} -->
+        <label>שם ממוקד</label>
+        <select [(ngModel)]="this.whom" name="services" required>
             <option [ngValue]="'מוטי'">{{ 'מוטי' }}</option>
             <option [ngValue]="'ערן'">{{ 'ערן' }}</option>
-          </select>
+        </select>
         <!-- <select
         > -->
-            <!-- <option value="'מוטי'"></option>
+        <!-- <option value="'מוטי'"></option>
             <option value="'ערן'"></option> -->
         <!-- </select> -->
-        <textarea [(ngModel)]="newTask.description" placeholder="תיאור" name="description" rows="3" style="font-family: david; font-size: larger;"></textarea>
-        <input [(ngModel)]="newTask.assignee" placeholder="אחראי" name="assignee" />
-        <input type="date" [(ngModel)]="newTask.dueDate" name="dueDate" />
-        <button *ngIf="!editmode" (click)="addTask()">הוסף משימה</button>
-        <button *ngIf="editmode" (click)="updateTask()">עדכן משימה</button>
+        <textarea [(ngModel)]="newTask.description" placeholder="תיאור המשימה" name="description" rows="3"
+            style="font-family: david; font-size: larger;"></textarea>
+        <!-- <input [(ngModel)]="newTask.assignee" placeholder="אחראי" name="assignee" /> -->
+        <data-control [field]="newTask.$.assignee"></data-control>
+        <!-- <input type="date" [(ngModel)]="newTask.dueDate" name="dueDate" /> -->
+        <data-control [field]="newTask.$.dueDate!"></data-control>
+        <div style="display: flex; flex-direction: row; gap: 5px;">
+        <button style="width: 100%;" *ngIf="!editmode" (click)="addTask()">הוסף משימה</button>
+        <button style="width: 100%;" *ngIf="editmode" (click)="updateTask()">עדכן משימה</button>
+        <button style="width: auto;" *ngIf="editmode" (click)="editmode = false">חזור</button>
+    </div>
     </form>
     <ul>
         <li *ngFor="let task of tasks">
-            <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+            <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
+                [style.backgroundColor]="task.whom === 'מוטי'? '#ADD8E6' : '#90EE90'">
                 <div style="display: flex; flex-direction: column;">
                     <div>
                         <label>
@@ -29,12 +37,14 @@
                         </label>
                     </div>
                     <div>
-                        <span style="font-size: small;">{{ task.assignee }} - {{ task.dueDate | date:'dd/MM/yyyy' }}</span>
+                        <span style="font-size: small;">{{ task.assignee }} - {{ task.dueDate | date:'dd/MM/yyyy'
+                            }}</span>
                     </div>
                 </div>
-                <div>
+                <div style="justify-content: baseline;">
                     <mat-icon (click)="this.editTask(task)" title="ערוך משימה">edit</mat-icon>
                     <mat-icon (click)="this.removeTask(task)" title="מחק משימה">delete</mat-icon>
+                    {{task.whom}}
                 </div>
             </div>
         </li>
